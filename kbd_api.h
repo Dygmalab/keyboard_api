@@ -32,6 +32,11 @@ extern "C" {
 #include "kbd_types.h"
 #include "kbd_assert.h"
 
+/*
+ * Keyboard API configuration file needed to be provided from the application space
+ */
+#include "config_kbd.h"
+
 #ifdef __cplusplus
 }
 #endif
