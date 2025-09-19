@@ -22,8 +22,8 @@
  * SOFTWARE.
  */
 
-#ifndef __KBD_API_H_
-#define __KBD_API_H_
+#ifndef __KBD_CORE_H_
+#define __KBD_CORE_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -41,4 +41,4 @@ extern "C" {
 }
 #endif
 
-#endif /* __KBD_API_H_ */
+#endif /* __KBD_CORE_H_ */

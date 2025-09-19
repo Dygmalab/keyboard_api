@@ -59,4 +59,30 @@
 
 #endif /* DYGMA_CORE_TYPES_SPECIFIED */
 
+/**************************************************/
+/*          Keyboard API key definitions          */
+/**************************************************/
+
+typedef enum
+{
+    KBDAPI_KEY_TYPE_UNSPECIFIED = 0,
+
+    KBDAPI_KEY_TYPE_BATTERY_LEVEL,
+    KBDAPI_KEY_TYPE_BLUETOOTH_PAIRING,
+} kbdapi_key_type_t;
+
+typedef enum
+{
+    KBDAPI_EVENT_RESULT_IGNORED = 0,
+    KBDAPI_EVENT_RESULT_CONSUMED,
+} kbdapi_event_result_t;
+
+typedef struct
+{
+    kbdapi_key_type_t type;
+
+    uint16_t col;
+    uint16_t row;
+} kbdapi_key_t;
+
 #endif /* __KBD_TYPES_H_ */

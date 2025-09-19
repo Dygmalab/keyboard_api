@@ -29,7 +29,7 @@
 extern "C" {
 #endif
 
-#include "kbd_api.h"
+#include "kbd_core.h"
 #include "kbdfal_base.h"
 
 extern result_t kbd_base_init( void );
