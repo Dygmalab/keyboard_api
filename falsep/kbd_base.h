@@ -33,6 +33,7 @@ extern "C" {
 #include "kbdfal_base.h"
 
 extern result_t kbd_base_init( void );
+extern result_t kbd_base_kbdif_set( kbdif_t * p_kbdif );
 
 #ifdef __cplusplus
 }

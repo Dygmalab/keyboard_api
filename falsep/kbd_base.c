@@ -28,3 +28,8 @@ result_t kbd_base_init( void )
 {
     return kbdfal_ll_base_init();
 }
+
+result_t kbd_base_kbdif_set( kbdif_t * p_kbdif )
+{
+    return kbdfal_ll_base_kbdif_set( p_kbdif );
+}
