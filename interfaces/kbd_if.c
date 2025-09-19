@@ -22,24 +22,49 @@
  * SOFTWARE.
  */
 
-#ifndef __KBD_CORE_H_
-#define __KBD_CORE_H_
-
-#ifdef __cplusplus
-extern "C" {
-#endif
-
-#include "kbd_types.h"
-#include "kbd_assert.h"
+#include "dl_middleware.h"
 #include "kbd_if.h"
 
-/*
- * Keyboard API configuration file needed to be provided from the application space
- */
-#include "config_kbd.h"
+struct kbdif
+{
+    /* Driver-specific Instance */
+    void * p_instance;
 
-#ifdef __cplusplus
+    /* Handlers */
+    const kbdif_handlers_t * handlers;
+};
+
+static result_t _init( kbdif_t * p_kbdif, const kbdif_conf_t * p_conf )
+{
+    p_kbdif->p_instance = p_conf->p_instance;
+    p_kbdif->handlers = p_conf->handlers;
+
+    return RESULT_OK;
 }
-#endif
 
-#endif /* __KBD_CORE_H_ */
+/*******************************************************************/
+/*                          Link List API                          */
+/*******************************************************************/
+
+result_t kbdif_init( kbdif_t ** pp_kbdif, const kbdif_conf_t * p_conf )
+{
+    result_t result = RESULT_ERR;
+
+    *pp_kbdif = heap_alloc( sizeof( kbdif_t ) );
+
+    result = _init( *pp_kbdif, p_conf );
+    EXIT_IF_ERR( result, "_init failed" );
+
+_EXIT:
+    return result;
+}
+
+kbdapi_event_result_t kbdif_key_event( kbdif_t * p_kbdif, kbdapi_key_t * p_key )
+{
+    if( p_kbdif == NULL || p_kbdif->handlers->key_event_cb == NULL )
+    {
+        return KBDAPI_EVENT_RESULT_IGNORED;
+    }
+
+    return p_kbdif->handlers->key_event_cb( p_kbdif->p_instance, p_key );
+}

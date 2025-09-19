@@ -22,24 +22,43 @@
  * SOFTWARE.
  */
 
-#ifndef __KBD_CORE_H_
-#define __KBD_CORE_H_
+#ifndef __KBD_IF_H_
+#define __KBD_IF_H_
 
 #ifdef __cplusplus
 extern "C" {
 #endif
 
-#include "kbd_types.h"
-#include "kbd_assert.h"
-#include "kbd_if.h"
+#include "kbd_core.h"
 
-/*
- * Keyboard API configuration file needed to be provided from the application space
- */
-#include "config_kbd.h"
+/* Keyboard interfaace handlers */
+
+typedef kbdapi_event_result_t( *kbdif_key_event_cb )( void * p_instance, kbdapi_key_t * p_key );
+
+typedef struct
+{
+    /* Receiving direction */
+    kbdif_key_event_cb key_event_cb;
+
+} kbdif_handlers_t;
+
+typedef struct
+{
+    /* Driver-specific Instance */
+    void * p_instance;
+
+    /* Handlers */
+    const kbdif_handlers_t * handlers;
+
+} kbdif_conf_t;
+
+typedef struct kbdif kbdif_t;
+
+extern result_t kbdif_init( kbdif_t ** pp_kbdif, const kbdif_conf_t * p_conf );
+extern kbdapi_event_result_t kbdif_key_event( kbdif_t * p_kbdif, kbdapi_key_t * p_key );
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* __KBD_CORE_H_ */
+#endif /* __KBD_IF_H_ */
