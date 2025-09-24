@@ -73,6 +73,27 @@ _EXIT:
     return result;
 }
 
+static INLINE result_t _add( kbdifmgr_t * p_kbdifmgr, kbdif_t * p_kbdif )
+{
+    result_t result = RESULT_ERR;
+
+    /* Add the kbdif to the linked list */
+    result = linklist_add( p_kbdifmgr->p_kbdiflist, p_kbdif );
+    EXIT_IF_ERR( result, "linklist_add failed" );
+
+_EXIT:
+    return result;
+}
+
+/**********************************************/
+/*         Keyboard interface events          */
+/**********************************************/
+
+static INLINE kbdapi_event_result_t _kbdif_key_event_cb( kbdif_t * p_kbdif, kbdapi_key_t * p_key )
+{
+    return kbdif_key_event( p_kbdif, p_key );
+}
+
 /**********************************************/
 /*        Low level keyboard interface        */
 /**********************************************/
@@ -81,9 +102,29 @@ static kbdapi_event_result_t _kbdif_ll_key_event_cb( void * p_instance, kbdapi_k
 {
     kbdifmgr_t * p_kbdifmgr = (kbdifmgr_t *)p_instance;
 
-#warning "Continue here"
+    kbdapi_event_result_t kbdapi_event_result = KBDAPI_EVENT_RESULT_IGNORED;
+    kbdif_t * p_kbdif;
 
-    return KBDAPI_EVENT_RESULT_IGNORED;
+    /* Set the first Linked List item */
+    linklist_nav_head( p_kbdifmgr->p_kbdiflist );
+
+    do
+    {
+        p_kbdif = ( kbdif_t *)linklist_get( p_kbdifmgr->p_kbdiflist );
+
+        if( p_kbdif == NULL )
+        {
+            /* No more items in the kbdif list */
+            break;
+        }
+
+        kbdapi_event_result = _kbdif_key_event_cb( p_kbdif, p_key );
+
+        /* Navigate to the next kbdif in the list */
+        linklist_nav_next( p_kbdifmgr->p_kbdiflist );
+    } while( kbdapi_event_result != KBDAPI_EVENT_RESULT_CONSUMED );
+
+    return kbdapi_event_result;
 }
 
 static const kbdif_handlers_t kbdif_ll_handlers =
@@ -98,4 +139,9 @@ static const kbdif_handlers_t kbdif_ll_handlers =
 result_t kbdifmgr_init( void )
 {
     return _init( &kbdifmgr );
+}
+
+result_t kbdifmgr_add( kbdif_t * p_kbdif )
+{
+    return _add( &kbdifmgr, p_kbdif );
 }

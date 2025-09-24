@@ -30,8 +30,10 @@ extern "C" {
 #endif
 
 #include "kbd_core.h"
+#include "kbd_if.h"
 
 extern result_t kbdifmgr_init( void );
+extern result_t kbdifmgr_add( kbdif_t * p_kbdif );
 
 #ifdef __cplusplus
 }

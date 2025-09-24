@@ -81,8 +81,16 @@ typedef struct
 {
     kbdapi_key_type_t type;
 
+    /* Position */
     uint16_t col;
     uint16_t row;
+
+    /* Flags */
+    bool_t is_pressed;      /* True if the key is actually pressed */
+    bool_t was_pressed;     /* True if the key was pressed in the previous scan cycle, regardless of whether it is pressed or not in this scan cycle */
+    bool_t toggled_on;      /* True if the key has just been pressed */
+    bool_t toggled_off;     /* True if the key has just been released */
+
 } kbdapi_key_t;
 
 #endif /* __KBD_TYPES_H_ */

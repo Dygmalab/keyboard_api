@@ -31,6 +31,7 @@ extern "C" {
 
 #include "kbd_types.h"
 #include "kbd_assert.h"
+#include "kbd_utils.h"
 #include "kbd_if.h"
 
 /*
