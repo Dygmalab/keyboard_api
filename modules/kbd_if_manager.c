@@ -89,19 +89,33 @@ _EXIT:
 /*         Keyboard interface events          */
 /**********************************************/
 
-static INLINE kbdapi_event_result_t _kbdif_key_event_cb( kbdif_t * p_kbdif, kbdapi_key_t * p_key )
+typedef kbdapi_event_result_t(* kbdif_event_fn)( kbdif_t * p_kbdif, void * p_event_data );
+
+typedef struct
 {
+    /* NOTE: This structure is here mainly to solve the 'const' warning. However, when there is
+     *       an event callback with multiple parameters, _event_data_t structure with multiple
+     *       items is the way to push the p_event_data through the _kbdiflist_events_process.
+     */
+    const char * p_command;
+} command_event_data_t;
+
+static kbdapi_event_result_t _kbdif_key_event( kbdif_t * p_kbdif, void * p_event_data )
+{
+    kbdapi_key_t * p_key = (kbdapi_key_t *)p_event_data;
+
     return kbdif_key_event( p_kbdif, p_key );
 }
 
-/**********************************************/
-/*        Low level keyboard interface        */
-/**********************************************/
-
-static kbdapi_event_result_t _kbdif_ll_key_event_cb( void * p_instance, kbdapi_key_t * p_key )
+static kbdapi_event_result_t _kbdif_command_event( kbdif_t * p_kbdif, void * p_event_data )
 {
-    kbdifmgr_t * p_kbdifmgr = (kbdifmgr_t *)p_instance;
+    command_event_data_t * p_command_event_data = (command_event_data_t *)p_event_data;
 
+    return kbdif_command_event( p_kbdif, p_command_event_data->p_command );
+}
+
+static kbdapi_event_result_t _kbdiflist_events_process( kbdifmgr_t * p_kbdifmgr, kbdif_event_fn event_fn, void * p_event_data )
+{
     kbdapi_event_result_t kbdapi_event_result = KBDAPI_EVENT_RESULT_IGNORED;
     kbdif_t * p_kbdif;
 
@@ -118,7 +132,7 @@ static kbdapi_event_result_t _kbdif_ll_key_event_cb( void * p_instance, kbdapi_k
             break;
         }
 
-        kbdapi_event_result = _kbdif_key_event_cb( p_kbdif, p_key );
+        kbdapi_event_result = event_fn( p_kbdif, p_event_data );
 
         /* Navigate to the next kbdif in the list */
         linklist_nav_next( p_kbdifmgr->p_kbdiflist );
@@ -127,9 +141,31 @@ static kbdapi_event_result_t _kbdif_ll_key_event_cb( void * p_instance, kbdapi_k
     return kbdapi_event_result;
 }
 
+/**********************************************/
+/*        Low level keyboard interface        */
+/**********************************************/
+
+static kbdapi_event_result_t _kbdif_ll_key_event_cb( void * p_instance, kbdapi_key_t * p_key )
+{
+    kbdifmgr_t * p_kbdifmgr = (kbdifmgr_t *)p_instance;
+
+    return _kbdiflist_events_process( p_kbdifmgr, _kbdif_key_event, p_key );
+}
+
+static kbdapi_event_result_t _kbdif_ll_command_event_cb( void * p_instance, const char * p_command )
+{
+    kbdifmgr_t * p_kbdifmgr = (kbdifmgr_t *)p_instance;
+    command_event_data_t command_event_data;
+
+    command_event_data.p_command = p_command;
+
+    return _kbdiflist_events_process( p_kbdifmgr, _kbdif_command_event, &command_event_data );
+}
+
 static const kbdif_handlers_t kbdif_ll_handlers =
 {
     .key_event_cb = _kbdif_ll_key_event_cb,
+    .command_event_cb = _kbdif_ll_command_event_cb,
 };
 
 /**********************************************/

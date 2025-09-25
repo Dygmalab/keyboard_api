@@ -68,3 +68,13 @@ kbdapi_event_result_t kbdif_key_event( kbdif_t * p_kbdif, kbdapi_key_t * p_key )
 
     return p_kbdif->handlers->key_event_cb( p_kbdif->p_instance, p_key );
 }
+
+kbdapi_event_result_t kbdif_command_event( kbdif_t * p_kbdif, const char * p_command )
+{
+    if( p_kbdif == NULL || p_kbdif->handlers->command_event_cb == NULL )
+    {
+        return KBDAPI_EVENT_RESULT_IGNORED;
+    }
+
+    return p_kbdif->handlers->command_event_cb( p_kbdif->p_instance, p_command );
+}
