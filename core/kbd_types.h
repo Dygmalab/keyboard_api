@@ -102,6 +102,7 @@ typedef struct
     bool_t was_pressed : 1;     /* True if the key was pressed in the previous scan cycle, regardless of whether it is pressed or not in this scan cycle */
     bool_t toggled_on : 1;      /* True if the key has just been pressed */
     bool_t toggled_off : 1;     /* True if the key has just been released */
+    bool_t injected : 1;        /* True if the key has been added by the software instead of actually pressing the key physically */
 
 } kbdapi_key_t;
 
