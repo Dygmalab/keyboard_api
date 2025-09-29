@@ -86,6 +86,7 @@ typedef enum
 {
     KBDAPI_EVENT_RESULT_IGNORED = 0,
     KBDAPI_EVENT_RESULT_CONSUMED,
+    KBDAPI_EVENT_RESULT_ERROR,
 } kbdapi_event_result_t;
 
 typedef struct
