@@ -98,10 +98,10 @@ typedef struct
     uint16_t row;
 
     /* Flags */
-    bool_t is_pressed;      /* True if the key is actually pressed */
-    bool_t was_pressed;     /* True if the key was pressed in the previous scan cycle, regardless of whether it is pressed or not in this scan cycle */
-    bool_t toggled_on;      /* True if the key has just been pressed */
-    bool_t toggled_off;     /* True if the key has just been released */
+    bool_t is_pressed : 1;      /* True if the key is actually pressed */
+    bool_t was_pressed : 1;     /* True if the key was pressed in the previous scan cycle, regardless of whether it is pressed or not in this scan cycle */
+    bool_t toggled_on : 1;      /* True if the key has just been pressed */
+    bool_t toggled_off : 1;     /* True if the key has just been released */
 
 } kbdapi_key_t;
 
