@@ -60,6 +60,17 @@
 #endif /* DYGMA_CORE_TYPES_SPECIFIED */
 
 /**************************************************/
+/*         Keyboard API event definitions         */
+/**************************************************/
+
+typedef enum
+{
+    KBDAPI_EVENT_RESULT_IGNORED = 0,
+    KBDAPI_EVENT_RESULT_CONSUMED,
+    KBDAPI_EVENT_RESULT_ERROR,
+} kbdapi_event_result_t;
+
+/**************************************************/
 /*          Keyboard API key definitions          */
 /**************************************************/
 
@@ -82,13 +93,6 @@ typedef enum
     KBDAPI_KEY_TYPE_BLUETOOTH_PAIRING,
 } kbdapi_key_type_t;
 
-typedef enum
-{
-    KBDAPI_EVENT_RESULT_IGNORED = 0,
-    KBDAPI_EVENT_RESULT_CONSUMED,
-    KBDAPI_EVENT_RESULT_ERROR,
-} kbdapi_event_result_t;
-
 typedef struct
 {
     kbdapi_key_type_t type;
@@ -109,5 +113,21 @@ typedef struct
     bool_t injected : 1;        /* True if the key has been added by the software instead of actually pressing the key physically */
 
 } kbdapi_key_t;
+
+/**************************************************/
+/*          Keyboard API LED definitions          */
+/**************************************************/
+
+typedef uint8_t kbdapi_led_layer_id_t;
+
+typedef enum
+{
+    KBDAPI_LED_EFFECT_ACTION_NONE = 0,
+
+    KBDAPI_LED_EFFECT_ACTION_DISABLE = 1,
+    KBDAPI_LED_EFFECT_ACTION_ENABLE,
+    KBDAPI_LED_EFFECT_ACTION_NEXT,
+    KBDAPI_LED_EFFECT_ACTION_PREVIOUS,
+} kbdapi_led_effect_action_t;
 
 #endif /* __KBD_TYPES_H_ */

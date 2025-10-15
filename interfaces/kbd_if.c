@@ -78,3 +78,23 @@ kbdapi_event_result_t kbdif_command_event( kbdif_t * p_kbdif, const char * p_com
 
     return p_kbdif->handlers->command_event_cb( p_kbdif->p_instance, p_command );
 }
+
+kbdapi_event_result_t kbdif_led_layer_change_event( kbdif_t * p_kbdif, kbdapi_led_layer_id_t layer_id )
+{
+    if( p_kbdif == NULL || p_kbdif->handlers->led_layer_change_event_cb == NULL )
+    {
+        return KBDAPI_EVENT_RESULT_IGNORED;
+    }
+
+    return p_kbdif->handlers->led_layer_change_event_cb( p_kbdif->p_instance, layer_id );
+}
+
+kbdapi_event_result_t kbdif_led_effect_change_event( kbdif_t * p_kbdif, kbdapi_led_effect_action_t action )
+{
+    if( p_kbdif == NULL || p_kbdif->handlers->led_effect_change_event_cb == NULL )
+    {
+        return KBDAPI_EVENT_RESULT_IGNORED;
+    }
+
+    return p_kbdif->handlers->led_effect_change_event_cb( p_kbdif->p_instance, action );
+}

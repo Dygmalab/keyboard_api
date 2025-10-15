@@ -35,12 +35,16 @@ extern "C" {
 
 typedef kbdapi_event_result_t( *kbdif_key_event_cb )( void * p_instance, kbdapi_key_t * p_key );
 typedef kbdapi_event_result_t( *kbdif_command_event_cb )( void * p_instance, const char * p_command );
+typedef kbdapi_event_result_t( *kbdif_led_layer_change_event_cb )( void * p_instance, kbdapi_led_layer_id_t layer_id );
+typedef kbdapi_event_result_t( *kbdif_led_effect_change_event_cb )( void * p_instance, kbdapi_led_effect_action_t action );
 
 typedef struct
 {
     /* Receiving direction */
     kbdif_key_event_cb key_event_cb;
     kbdif_command_event_cb command_event_cb;
+    kbdif_led_layer_change_event_cb led_layer_change_event_cb;
+    kbdif_led_effect_change_event_cb led_effect_change_event_cb;
 } kbdif_handlers_t;
 
 typedef struct
@@ -58,6 +62,8 @@ typedef struct kbdif kbdif_t;
 extern result_t kbdif_init( kbdif_t ** pp_kbdif, const kbdif_conf_t * p_conf );
 extern kbdapi_event_result_t kbdif_key_event( kbdif_t * p_kbdif, kbdapi_key_t * p_key );
 extern kbdapi_event_result_t kbdif_command_event( kbdif_t * p_kbdif, const char * p_command );
+extern kbdapi_event_result_t kbdif_led_layer_change_event( kbdif_t * p_kbdif, kbdapi_led_layer_id_t layer_id );
+extern kbdapi_event_result_t kbdif_led_effect_change_event( kbdif_t * p_kbdif, kbdapi_led_effect_action_t action );
 
 #ifdef __cplusplus
 }

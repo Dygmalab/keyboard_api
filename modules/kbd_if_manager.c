@@ -114,6 +114,16 @@ static kbdapi_event_result_t _kbdif_command_event( kbdif_t * p_kbdif, void * p_e
     return kbdif_command_event( p_kbdif, p_command_event_data->p_command );
 }
 
+static kbdapi_event_result_t _kbdif_led_layer_change_event( kbdif_t * p_kbdif, void * p_event_data )
+{
+    return kbdif_led_layer_change_event( p_kbdif, *(kbdapi_led_layer_id_t *)p_event_data );
+}
+
+static kbdapi_event_result_t _kbdif_led_effect_change_event( kbdif_t * p_kbdif, void * p_event_data )
+{
+    return kbdif_led_effect_change_event( p_kbdif, *(kbdapi_led_effect_action_t *)p_event_data );
+}
+
 static kbdapi_event_result_t _kbdiflist_events_process( kbdifmgr_t * p_kbdifmgr, kbdif_event_fn event_fn, void * p_event_data )
 {
     kbdapi_event_result_t kbdapi_event_result = KBDAPI_EVENT_RESULT_IGNORED;
@@ -162,10 +172,26 @@ static kbdapi_event_result_t _kbdif_ll_command_event_cb( void * p_instance, cons
     return _kbdiflist_events_process( p_kbdifmgr, _kbdif_command_event, &command_event_data );
 }
 
+static kbdapi_event_result_t _kbdif_ll_led_layer_change_event_cb( void * p_instance, kbdapi_led_layer_id_t layer_id )
+{
+    kbdifmgr_t * p_kbdifmgr = (kbdifmgr_t *)p_instance;
+
+    return _kbdiflist_events_process( p_kbdifmgr, _kbdif_led_layer_change_event, &layer_id );
+}
+
+static kbdapi_event_result_t _kbdif_ll_led_effect_change_event_cb( void * p_instance, kbdapi_led_effect_action_t action )
+{
+    kbdifmgr_t * p_kbdifmgr = (kbdifmgr_t *)p_instance;
+
+    return _kbdiflist_events_process( p_kbdifmgr, _kbdif_led_effect_change_event, &action );
+}
+
 static const kbdif_handlers_t kbdif_ll_handlers =
 {
     .key_event_cb = _kbdif_ll_key_event_cb,
     .command_event_cb = _kbdif_ll_command_event_cb,
+    .led_layer_change_event_cb = _kbdif_ll_led_layer_change_event_cb,
+    .led_effect_change_event_cb = _kbdif_ll_led_effect_change_event_cb,
 };
 
 /**********************************************/
