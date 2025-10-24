@@ -50,4 +50,6 @@
 
 #endif /* DYGMA_CORE_ASSERT_SPECIFIED */
 
+#define EXIT_IF_KBDAPI_NOT_IGNORED( kbdapi_result ) if ( ( kbdapi_result ) != KBDAPI_EVENT_RESULT_IGNORED ) goto _EXIT;
+
 #endif /* __KBD_ASSERT_H_ */
