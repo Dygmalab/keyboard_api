@@ -31,7 +31,13 @@ extern "C" {
 
 #include "kbd_core.h"
 
+typedef uint32_t kbdapi_key_report_lock_t;
+
 extern result_t kbdapi_init( void );
+
+extern result_t kbdapi_key_report_lock_init( kbdapi_key_report_lock_t * p_lock );
+extern result_t kbdapi_key_report_enable( kbdapi_key_report_lock_t * p_lock );
+extern result_t kbdapi_key_report_disable( kbdapi_key_report_lock_t * p_lock );
 
 #ifdef __cplusplus
 }
