@@ -33,6 +33,7 @@ extern "C" {
 #include "kbd_assert.h"
 #include "kbd_utils.h"
 #include "kbd_if.h"
+#include "kbd_timer_if.h"
 
 /*
  * Keyboard API configuration file needed to be provided from the application space

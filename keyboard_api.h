@@ -30,7 +30,6 @@ extern "C" {
 #endif
 
 #include "kbd_core.h"
-#include "kbd_timer_if.h"
 
 typedef struct
 {
