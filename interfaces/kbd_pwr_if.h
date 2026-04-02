@@ -1,7 +1,7 @@
 /*
  * The MIT License (MIT)
  *
- * Copyright (C) 2025  Dygma Lab S.L.
+ * Copyright (C) 2026  Dygma Lab S.L.
  *
  * Permission is hereby granted, free of charge, to any person obtaining a copy
  * of this software and associated documentation files (the "Software"), to deal
@@ -22,8 +22,8 @@
  * SOFTWARE.
  */
 
-#ifndef __KEYBOARD_API_H_
-#define __KEYBOARD_API_H_
+#ifndef __KBD_PWR_IF_H_
+#define __KBD_PWR_IF_H_
 
 #ifdef __cplusplus
 extern "C" {
@@ -31,25 +31,27 @@ extern "C" {
 
 #include "kbd_core.h"
 
+/*****************************************************/
+/*                KBD power functions                */
+/*****************************************************/
+
+typedef void (* kbdpwr_sleep_postpone_fn)( void );
+
+extern void kbdpwr_sleep_postpone( void );
+
+/*****************************************************/
+/*                KBD power interface                */
+/*****************************************************/
+
 typedef struct
 {
-    /* Power interface */
-    kbdpwrif_config_t kbdpwrif;
+    kbdpwr_sleep_postpone_fn sleep_postpone_fn;
+} kbdpwrif_config_t;
 
-    /* Timer interface */
-    kbdtimif_config_t kbdtimif;
-} kbdapi_config_t;
-
-typedef uint32_t kbdapi_key_report_lock_t;
-
-extern result_t kbdapi_init( const kbdapi_config_t * p_config );
-
-extern result_t kbdapi_key_report_lock_init( kbdapi_key_report_lock_t * p_lock );
-extern result_t kbdapi_key_report_enable( kbdapi_key_report_lock_t * p_lock );
-extern result_t kbdapi_key_report_disable( kbdapi_key_report_lock_t * p_lock );
+extern result_t kbdpwrif_init( const kbdpwrif_config_t * p_config );
 
 #ifdef __cplusplus
 }
 #endif
 
-#endif /* __KEYBOARD_API_H_ */
+#endif /* __KBD_PWR_IF_H_ */

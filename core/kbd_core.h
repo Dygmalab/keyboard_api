@@ -33,6 +33,7 @@ extern "C" {
 #include "kbd_assert.h"
 #include "kbd_utils.h"
 #include "kbd_if.h"
+#include "kbd_pwr_if.h"
 #include "kbd_timer_if.h"
 
 /*
