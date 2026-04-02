@@ -49,7 +49,7 @@ static result_t _init( kbdapi_t * p_kbdapi, const kbdapi_config_t * p_config )
     EXIT_IF_ERR( result, "kbdifmgr_init failed" );
 
     result = kbdtimif_init( &p_config->kbdtimif );
-    EXIT_IF_ERR( result, "kbdifmgr_init failed" );
+    EXIT_IF_ERR( result, "kbdtimif_init failed" );
 
     result = _key_report_init( p_kbdapi );
     EXIT_IF_ERR( result, "_key_report_init failed" );

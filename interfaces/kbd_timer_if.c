@@ -65,7 +65,7 @@ static INLINE result_t _init( kbdtimif_t * p_kbdtimif, const kbdtimif_config_t *
 {
     ASSERT_DYGMA( p_config != NULL, "KBD Timer Interface not specified" );
     ASSERT_DYGMA( p_config->set_ms_fn != NULL, "KBD Timer Interface set_ms_fn not specified" );
-    ASSERT_DYGMA( p_config->set_ms_fn != NULL, "KBD Timer Interface check_fn not specified" );
+    ASSERT_DYGMA( p_config->check_fn != NULL, "KBD Timer Interface check_fn not specified" );
 
     /* Set the interface functions */
     p_kbdtimif->set_ms_fn = p_config->set_ms_fn;
