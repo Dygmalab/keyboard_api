@@ -36,9 +36,11 @@ extern "C" {
 /*****************************************************/
 typedef uint64_t kbdtimer_t;
 
+typedef uint32_t (* kbdtimer_get_system_ms_fn)( void );
 typedef void (* kbdtimer_set_ms_fn)( kbdtimer_t * p_timer, uint32_t ms );
 typedef bool (* kbdtimer_check_fn)( kbdtimer_t * p_timer );
 
+extern uint32_t kbdtimer_get_system_ms( void );
 extern void kbdtimer_set_ms( kbdtimer_t * p_timer, uint32_t ms );
 extern bool kbdtimer_check( kbdtimer_t * p_timer );
 
@@ -48,6 +50,7 @@ extern bool kbdtimer_check( kbdtimer_t * p_timer );
 
 typedef struct
 {
+    kbdtimer_get_system_ms_fn get_system_ms_fn;
     kbdtimer_set_ms_fn set_ms_fn;
     kbdtimer_check_fn check_fn;
 } kbdtimif_config_t;

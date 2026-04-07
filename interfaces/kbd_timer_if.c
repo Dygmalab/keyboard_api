@@ -27,6 +27,7 @@
 typedef struct
 {
     /* Interface functions */
+    kbdtimer_get_system_ms_fn get_system_ms_fn;
     kbdtimer_set_ms_fn set_ms_fn;
     kbdtimer_check_fn check_fn;
 } kbdtimif_t;
@@ -37,6 +38,11 @@ static kbdtimif_t kbdtimif;
 /*                KBD timer functions                */
 /*****************************************************/
 
+static INLINE uint32_t _get_system_ms( kbdtimif_t * p_kbdtimif )
+{
+    return p_kbdtimif->get_system_ms_fn( );
+}
+
 static INLINE void _timer_set_ms( kbdtimif_t * p_kbdtimif, kbdtimer_t * p_timer, uint32_t ms )
 {
     p_kbdtimif->set_ms_fn( p_timer, ms );
@@ -45,6 +51,11 @@ static INLINE void _timer_set_ms( kbdtimif_t * p_kbdtimif, kbdtimer_t * p_timer,
 static INLINE bool _timer_check( kbdtimif_t * p_kbdtimif, kbdtimer_t * p_timer )
 {
     return p_kbdtimif->check_fn( p_timer );
+}
+
+uint32_t kbdtimer_get_system_ms( void )
+{
+    return _get_system_ms( &kbdtimif );
 }
 
 void kbdtimer_set_ms( kbdtimer_t * p_timer, uint32_t ms )
@@ -64,10 +75,12 @@ bool kbdtimer_check( kbdtimer_t * p_timer )
 static INLINE result_t _init( kbdtimif_t * p_kbdtimif, const kbdtimif_config_t * p_config )
 {
     ASSERT_DYGMA( p_config != NULL, "KBD Timer Interface not specified" );
+    ASSERT_DYGMA( p_config->get_system_ms_fn != NULL, "KBD Timer Interface get_system_ms_fn not specified" );
     ASSERT_DYGMA( p_config->set_ms_fn != NULL, "KBD Timer Interface set_ms_fn not specified" );
     ASSERT_DYGMA( p_config->check_fn != NULL, "KBD Timer Interface check_fn not specified" );
 
     /* Set the interface functions */
+    p_kbdtimif->get_system_ms_fn = p_config->get_system_ms_fn;
     p_kbdtimif->set_ms_fn = p_config->set_ms_fn;
     p_kbdtimif->check_fn = p_config->check_fn;
 
