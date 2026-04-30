@@ -38,7 +38,7 @@ static kbdapi_t kbdapi;
 
 static result_t _key_report_init( kbdapi_t * p_kbdapi );
 
-static result_t _init( kbdapi_t * p_kbdapi )
+static result_t _init( kbdapi_t * p_kbdapi, const kbdapi_config_t * p_config )
 {
     result_t result = RESULT_ERR;
 
@@ -47,6 +47,12 @@ static result_t _init( kbdapi_t * p_kbdapi )
 
     result = kbdifmgr_init();
     EXIT_IF_ERR( result, "kbdifmgr_init failed" );
+
+    result = kbdpwrif_init( &p_config->kbdpwrif );
+    EXIT_IF_ERR( result, "kbdpwrif_init failed" );
+
+    result = kbdtimif_init( &p_config->kbdtimif );
+    EXIT_IF_ERR( result, "kbdtimif_init failed" );
 
     result = _key_report_init( p_kbdapi );
     EXIT_IF_ERR( result, "_key_report_init failed" );
@@ -138,9 +144,9 @@ _EXIT:
 /*                    KBD API                    */
 /*************************************************/
 
-result_t kbdapi_init( void )
+result_t kbdapi_init( const kbdapi_config_t * p_config )
 {
-    return _init( &kbdapi );
+    return _init( &kbdapi, p_config );
 }
 
 result_t kbdapi_key_report_lock_init( kbdapi_key_report_lock_t * p_lock )
