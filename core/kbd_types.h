@@ -91,6 +91,7 @@ typedef enum
 
     KBDAPI_KEY_TYPE_BATTERY_LEVEL,
     KBDAPI_KEY_TYPE_BLUETOOTH_PAIRING,
+    KBDAPI_KEY_TYPE_OVERLAY,
 } kbdapi_key_type_t;
 
 typedef struct
