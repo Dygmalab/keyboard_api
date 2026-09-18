@@ -48,6 +48,8 @@ extern result_t kbdapi_key_report_lock_init( kbdapi_key_report_lock_t * p_lock )
 extern result_t kbdapi_key_report_enable( kbdapi_key_report_lock_t * p_lock );
 extern result_t kbdapi_key_report_disable( kbdapi_key_report_lock_t * p_lock );
 
+extern result_t kbdapi_key_data_add( kbdapi_side_type_t side_type, const uint8_t * p_data, uint32_t data_len );
+
 #ifdef __cplusplus
 }
 #endif
