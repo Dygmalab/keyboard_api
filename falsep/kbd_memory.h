@@ -33,7 +33,7 @@ extern "C" {
 #include "kbdfal_memory.h"
 
     /* Callbacks */
-    typedef result_t (* kbdmem_item_request_cb)( void * p_instance, kbdmem_item_type_t item_type, const void ** pp_item );
+    typedef result_t (* kbdmem_item_request_cb)( void * p_instance, const void ** pp_config_item, uint16_t item_size );
     typedef result_t (* kbdmem_data_save_cb)( void * p_instance, const void * p_mem_target, const void * p_data, uint16_t data_len );
 
     typedef struct

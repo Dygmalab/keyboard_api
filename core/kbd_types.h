@@ -71,6 +71,18 @@ typedef enum
 } kbdapi_event_result_t;
 
 /**************************************************/
+/*         Keyboard API Side definitions          */
+/**************************************************/
+
+typedef enum
+{
+    KBDAPI_SIDE_TYPE_UNKNOWN = 0,
+
+    KBDAPI_SIDE_TYPE_LEFT = 1,
+    KBDAPI_SIDE_TYPE_RIGHT,
+} kbdapi_side_type_t;
+
+/**************************************************/
 /*          Keyboard API key definitions          */
 /**************************************************/
 

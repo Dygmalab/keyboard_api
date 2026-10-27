@@ -36,7 +36,7 @@ typedef struct kbdapi
 
 static kbdapi_t kbdapi;
 
-static result_t _key_report_init( kbdapi_t * p_kbdapi );
+static INLINE result_t _key_report_init( kbdapi_t * p_kbdapi );
 
 static result_t _init( kbdapi_t * p_kbdapi, const kbdapi_config_t * p_config )
 {
@@ -65,7 +65,7 @@ _EXIT:
 /*                 Key reporting                 */
 /*************************************************/
 
-static result_t _key_report_init( kbdapi_t * p_kbdapi )
+static INLINE result_t _key_report_init( kbdapi_t * p_kbdapi )
 {
     p_kbdapi->key_report_lock_id = 0;
     p_kbdapi->key_report_lock_cnt = 0;
@@ -73,14 +73,14 @@ static result_t _key_report_init( kbdapi_t * p_kbdapi )
     return RESULT_OK;
 }
 
-static result_t _key_report_lock_init( kbdapi_t * p_kbdapi, kbdapi_key_report_lock_t * p_lock )
+static INLINE result_t _key_report_lock_init( kbdapi_t * p_kbdapi, kbdapi_key_report_lock_t * p_lock )
 {
     *p_lock = 0;
 
     return RESULT_OK;
 }
 
-static result_t _key_report_enable( kbdapi_t * p_kbdapi, kbdapi_key_report_lock_t * p_lock )
+static INLINE result_t _key_report_enable( kbdapi_t * p_kbdapi, kbdapi_key_report_lock_t * p_lock )
 {
     result_t result = RESULT_ERR;
 
@@ -110,7 +110,7 @@ _EXIT:
     return result;
 }
 
-static result_t _key_report_disable( kbdapi_t * p_kbdapi, kbdapi_key_report_lock_t * p_lock )
+static INLINE result_t _key_report_disable( kbdapi_t * p_kbdapi, kbdapi_key_report_lock_t * p_lock )
 {
     result_t result = RESULT_ERR;
 
@@ -144,6 +144,15 @@ _EXIT:
 /*                    KBD API                    */
 /*************************************************/
 
+static INLINE result_t _key_data_add( kbdapi_t * p_kbdapi, kbdapi_side_type_t side_type, const uint8_t * p_data, uint32_t data_len )
+{
+    return kbd_base_key_data_add( side_type, p_data, data_len );
+}
+
+/*************************************************/
+/*                    KBD API                    */
+/*************************************************/
+
 result_t kbdapi_init( const kbdapi_config_t * p_config )
 {
     return _init( &kbdapi, p_config );
@@ -162,4 +171,9 @@ result_t kbdapi_key_report_enable( kbdapi_key_report_lock_t * p_lock )
 result_t kbdapi_key_report_disable( kbdapi_key_report_lock_t * p_lock )
 {
     return _key_report_disable( &kbdapi, p_lock );
+}
+
+result_t kbdapi_key_data_add( kbdapi_side_type_t side_type, const uint8_t * p_data, uint32_t data_len )
+{
+    return _key_data_add( &kbdapi, side_type, p_data, data_len );
 }

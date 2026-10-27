@@ -39,6 +39,11 @@ result_t kbd_base_key_report_disable( void )
     return kbdfal_ll_base_key_report_disable();
 }
 
+result_t kbd_base_key_data_add( kbdapi_side_type_t side_type, const uint8_t * p_data, uint32_t data_len )
+{
+    return kbdfal_ll_base_key_data_add( side_type, p_data, data_len );
+}
+
 result_t kbd_base_kbdif_set( kbdif_t * p_kbdif )
 {
     return kbdfal_ll_base_kbdif_set( p_kbdif );
